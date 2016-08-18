@@ -190,18 +190,34 @@ def blender_decript(text,passwd,block_size_list):
 #         print "miwen",text,block_size
     return text    
 
+def get_block_size_from_pass(passwd) :
+    passwd=passwd.tobytes()
+    i=0;
+    k=0;
+    blocksizes=[]
+    while k<7:
+        print ord(passwd[i])
+        blocksizes.append(ord(passwd[i]) % 7+1)
+        k+=1;
+        i+=1;
+        if i==len(passwd):
+            i=0
+    return blocksizes  
       
 temp=bitarray()
-temp.frombytes("123")
+temp.frombytes("2")
 passwd=temp
- 
- 
+#*7 makesure passwd is longenough
+passwd=(blender_encript(passwd*7,passwd,[1,3,5,7,4,1]))
+
+block_size_list=get_block_size_from_pass(passwd)
+
 temp=bitarray()
-text =temp.frombytes("卧槽")
+text =temp.frombytes("12345677")
 text =temp
-
-
-block_size_list=[1,2,3,7,3,4]
+1101101000100011000110000001001000100010111010100100110000111001
+1011010000101011101011010101111100111101111000000101010111100111
+# block_size_list=[1,2,3,7,3,4]
  
 print "encript",text,passwd
 encripted_text=blender_encript(text,passwd,block_size_list)
@@ -214,3 +230,5 @@ while i<1000:
 print "######################################## decript",encripted_text,passwd
 print blender_decript(encripted_text, passwd,block_size_list).tobytes()
 
+1111011110110101101001100101001101010010011110111001101010001101
+1101111110110100101001100101001101010010011110110001101010001101
